@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NewsApp</string>
+    <string name="no_news">No news found.</string>
+    <string name="no_connection">No internet connection.</string>
 </resources>
