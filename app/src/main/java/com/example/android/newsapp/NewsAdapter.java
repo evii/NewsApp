@@ -82,7 +82,7 @@ return listItemView;
     }
 
     private String formatDate(Date dateObject) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("LLL dd, yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
         return dateFormat.format(dateObject);
     }
 

@@ -6,47 +6,53 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/padding">
 
         <TextView
             android:id="@+id/title_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Title"
-            android:textSize="16sp"/>
+            android:textColor="@color/colortext"
+            android:textSize="@dimen/text"
+            android:textStyle="italic"
+            tools:text="Title" />
 
         <TextView
             android:id="@+id/section_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Section"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
-            android:textAllCaps="true"/>
+            android:textAllCaps="true"
+            android:textColor="@color/colorSection"
+            tools:text="Section" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="bottom"
         android:orientation="vertical"
-        android:paddingRight="16dp">
+        android:paddingBottom="@dimen/padding"
+        android:paddingRight="@dimen/padding">
 
         <TextView
             android:id="@+id/date_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/colortext"
             tools:text="Date" />
 
         <TextView
             android:id="@+id/time_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="16dp"
+            android:paddingRight="@dimen/padding"
+            android:textColor="@color/colortext"
             tools:text="time" />
 
     </LinearLayout>
