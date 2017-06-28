@@ -5,12 +5,17 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,6 +23,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.attr.key;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -27,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final String LOG_TAG = MainActivity.class.getName();
 
     // Sample JSON response for a Guardian query */
-    private static final String QUERY_NEWS_URL = "http://content.guardianapis.com/search?q=debates&api-key=test";
+    private static final String QUERY_NEWS_URL = "https://content.guardianapis.com/search?";
 
     // NewsAdapter global variable
     private NewsAdapter mAdapter;
@@ -81,7 +88,17 @@ public class MainActivity extends AppCompatActivity implements
     // Loaders onCreate - returns new NewsLoader
     @Override
     public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
-       return new NewsLoader(this, QUERY_NEWS_URL);
+        //Biulds QUERY URL from preferences
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String topic = sharedPrefs.getString(
+                getString(R.string.settings_topic_key),
+                getString(R.string.settings_topic_default));
+        String topicAdj = topic.replace(" ", " AND ");
+        Uri baseUri = Uri.parse(QUERY_NEWS_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendQueryParameter("q", topicAdj);
+        uriBuilder.appendQueryParameter("api-key", "test");
+        return new NewsLoader(this, uriBuilder.toString());
     }
 
     // Loaders onLoadFinished - same as onPostExecute in Async
@@ -107,6 +124,31 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(Loader<List<News>> loader) {
         mAdapter.clear();
+    }
+
+    // Updating the results of the search according to preferences after going back from preferences
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
+    // Creating menu in the app bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    // after clicking on the menu, new activity with settings opens
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     }

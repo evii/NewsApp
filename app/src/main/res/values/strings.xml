@@ -2,4 +2,10 @@
     <string name="app_name">NewsApp</string>
     <string name="no_news">No news found.</string>
     <string name="no_connection">No internet connection.</string>
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">News Settings</string>
+    <string name="settings_topic_label">Topic</string>
+    <string name="settings_topic_key" translatable="false">topic</string>
+    <string name="settings_topic_default" translatable="false">czech</string>
+
 </resources>
